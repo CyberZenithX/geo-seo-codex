@@ -328,7 +328,7 @@ def main():
         view_pipeline(prospects)
 
     console.print(
-        f"[dim]CRM: {CRM_PATH}   |   /geo audit <domain> to add prospects[/dim]\n"
+        f"[dim]CRM: {CRM_PATH}   |   Use $geo to audit <domain> to add prospects[/dim]\n"
     )
 
 

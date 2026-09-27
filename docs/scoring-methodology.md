@@ -62,11 +62,11 @@ geo_score = sum(sub_scores[k] * w for k, w in weights.items())
 
 ## AI Citability & Visibility (25%)
 
-**Implemented by:** [`agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) and [`scripts/citability_scorer.py`](../scripts/citability_scorer.py)
+**Implemented by:** [`../agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) and [`scripts/citability_scorer.py`](../scripts/citability_scorer.py)
 
 ### What the scorer looks at
 
-The citability sub-score is itself a weighted composite of four components (weights from `agents/geo-ai-visibility.md`):
+The citability sub-score is itself a weighted composite of four components (weights from `../agents/geo-ai-visibility.md`):
 
 | Component | Weight |
 |---|---|
@@ -87,13 +87,13 @@ The citability sub-score is itself a weighted composite of four components (weig
 
 The passage score is the sum of all five dimensions (maximum 100). The page-level citability score is the average of the top five scoring blocks, or all blocks when fewer than five exist.
 
-**Crawler Access Score** (`agents/geo-ai-visibility.md`) starts at 100 and deducts:
+**Crawler Access Score** (`../agents/geo-ai-visibility.md`) starts at 100 and deducts:
 - 15 points per critical crawler blocked (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot, GoogleBot)
 - 5 points per secondary crawler blocked
 - 10 points if no sitemap is referenced in robots.txt
 - Floor at 0
 
-**llms.txt Score** (`agents/geo-ai-visibility.md` and `scripts/llmstxt_generator.py`):
+**llms.txt Score** (`../agents/geo-ai-visibility.md` and `scripts/llmstxt_generator.py`):
 - 0 — absent
 - 30 — present but malformed
 - 50 — present, valid format, minimal content
@@ -108,7 +108,7 @@ A good AI Citability score (70+) means the page has multiple passages that are s
 
 ## Brand Authority Signals (20%)
 
-**Implemented by:** [`agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) and [`scripts/brand_scanner.py`](../scripts/brand_scanner.py)
+**Implemented by:** [`../agents/geo-ai-visibility.md`](../agents/geo-ai-visibility.md) and [`scripts/brand_scanner.py`](../scripts/brand_scanner.py)
 
 ### What the scorer looks at
 
@@ -132,7 +132,7 @@ A strong brand authority score requires an active Wikipedia presence (the highes
 
 ## Content Quality & E-E-A-T (20%)
 
-**Implemented by:** [`agents/geo-content.md`](../agents/geo-content.md)
+**Implemented by:** [`../agents/geo-content.md`](../agents/geo-content.md)
 
 ### What the scorer looks at
 
@@ -163,7 +163,7 @@ A score of 70+ requires a clearly identified author with verifiable credentials,
 
 ## Technical Foundations (15%)
 
-**Implemented by:** [`agents/geo-technical.md`](../agents/geo-technical.md)
+**Implemented by:** [`../agents/geo-technical.md`](../agents/geo-technical.md)
 
 ### What the scorer looks at
 
@@ -183,7 +183,7 @@ The technical agent computes a score from nine weighted components:
 
 Server-side rendering carries the highest weight because AI crawlers (GPTBot, ClaudeBot, PerplexityBot) generally do not execute JavaScript. A page that requires JS to render its main content is effectively invisible to AI crawlers regardless of how well the content itself is written.
 
-Security header deductions (from `agents/geo-technical.md`):
+Security header deductions (from `../agents/geo-technical.md`):
 - No HTTPS: -30 points
 - No HSTS: -10 points
 - No CSP: -10 points
@@ -202,7 +202,7 @@ A high technical score requires full server-side rendering, a well-formed robots
 
 ## Structured Data (10%)
 
-**Implemented by:** [`agents/geo-schema.md`](../agents/geo-schema.md)
+**Implemented by:** [`../agents/geo-schema.md`](../agents/geo-schema.md)
 
 ### What the scorer looks at
 
@@ -223,7 +223,7 @@ The schema agent detects JSON-LD, Microdata, and RDFa structured data in the pag
 
 The agent also flags schemas that are injected by JavaScript rather than present in the initial HTML response, because AI crawlers will not execute JavaScript and will miss those schemas entirely.
 
-Deprecated and restricted statuses checked (from `agents/geo-schema.md`):
+Deprecated and restricted statuses checked (from `../agents/geo-schema.md`):
 - HowTo: removed from Google rich results September 2023
 - FAQPage: restricted to government and health authority sites since August 2023
 - SpecialAnnouncement: deprecated
@@ -236,7 +236,7 @@ A high schema score requires an Organization schema with sameAs links to at leas
 
 ## Platform Optimization (10%)
 
-**Implemented by:** [`agents/geo-platform-analysis.md`](../agents/geo-platform-analysis.md)
+**Implemented by:** [`../agents/geo-platform-analysis.md`](../agents/geo-platform-analysis.md)
 
 ### What the scorer looks at
 
@@ -260,7 +260,7 @@ A strong platform score requires passing the crawler-access and entity-recogniti
 
 ## Caveats
 
-**Deterministic vs LLM-judged scoring.** The citability scorer (`scripts/citability_scorer.py`) and the llms.txt validator (`scripts/llmstxt_generator.py`) are fully deterministic: given the same HTML, they return the same numerical result every time. The Brand Authority, Content E-E-A-T, Technical, Schema, and Platform scores are produced by LLM subagents following documented rubrics; they are guided evaluations rather than reproducible computations. Two runs on the same URL may produce small differences in LLM-judged categories.
+**Deterministic vs LLM-judged scoring.** The citability scorer (`scripts/citability_scorer.py`) and the llms.txt validator (`scripts/llmstxt_generator.py`) are fully deterministic: given the same HTML, they return the same numerical result every time. The Brand Authority, Content E-E-A-T, Technical, Schema, and Platform scores are evaluated by Codex using the documented rubrics; they are guided evaluations rather than reproducible computations. Two runs on the same URL may produce small differences in LLM-judged categories.
 
 **Weights are opinionated.** The 25/20/20/15/10/10 weight distribution reflects the judgement of the tool's authors about the relative importance of each category for AI citation likelihood at the time of writing. These weights are not derived from a controlled study and are subject to change as AI search platforms evolve.
 
@@ -268,4 +268,4 @@ A strong platform score requires passing the crawler-access and entity-recogniti
 
 **Schema validation is structural, not semantic.** The schema agent checks that JSON-LD is syntactically valid, uses recognised Schema.org types and properties, and includes required fields. It does not verify that the values are accurate or that the described entity matches the actual organisation or person. A schema block that passes validation may still contain incorrect information.
 
-**llms.txt is an emerging standard.** The llms.txt specification referenced by `scripts/llmstxt_generator.py` and `agents/geo-ai-visibility.md` is not yet universally adopted by AI crawlers. Its presence or absence does not guarantee any specific crawler behaviour at this time.
+**llms.txt is an emerging standard.** The llms.txt specification referenced by `scripts/llmstxt_generator.py` and `../agents/geo-ai-visibility.md` is not yet universally adopted by AI crawlers. Its presence or absence does not guarantee any specific crawler behaviour at this time.

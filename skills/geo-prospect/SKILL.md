@@ -1,14 +1,12 @@
 ---
 name: geo-prospect
-description: >
-  CRM-lite for managing GEO agency prospects and clients. Track leads through
-  the full sales pipeline: Lead → Qualified → Proposal Sent → Won → Lost.
-  Store audit history, notes, deal values, and generate pipeline summaries.
-  Use when user says "prospect", "lead", "client", "pipeline", "crm", "nuovo prospect",
-  "aggiungi cliente", or when managing the business side of GEO services.
-version: 1.0.0
-tags: [geo, business, crm, prospect, pipeline, sales]
-allowed-tools: Read, Write, Bash, Glob
+description: 'CRM-lite for managing GEO agency prospects and clients. Track leads
+  through the full sales pipeline: Lead → Qualified → Proposal Sent → Won → Lost.
+  Store audit history, notes, deal values, and generate pipeline summaries. Use when
+  user says "prospect", "lead", "client", "pipeline", "crm", "nuovo prospect", "aggiungi
+  cliente", or when managing the business side of GEO services.
+
+  '
 ---
 
 # GEO Prospect Manager
@@ -24,16 +22,16 @@ All data is stored in `~/.geo-prospects/prospects.json` (persistent across sessi
 
 | Command | What It Does |
 |---------|-------------|
-| `/geo prospect new <domain>` | Create new prospect (interactive prompts) |
-| `/geo prospect list` | Show all prospects with pipeline status |
-| `/geo prospect list <status>` | Filter: lead, qualified, proposal, won, lost |
-| `/geo prospect show <id-or-domain>` | Full prospect detail with history |
-| `/geo prospect audit <id-or-domain>` | Run quick GEO audit and save to prospect record |
-| `/geo prospect note <id-or-domain> "<text>"` | Add interaction note with timestamp |
-| `/geo prospect status <id-or-domain> <new-status>` | Move through pipeline |
-| `/geo prospect won <id-or-domain> <monthly-value>` | Mark as won, set contract value |
-| `/geo prospect lost <id-or-domain> "<reason>"` | Mark as lost with reason |
-| `/geo prospect pipeline` | Visual pipeline summary with revenue forecast |
+| `Use $geo to prospect new <domain>` | Create new prospect (interactive prompts) |
+| `Use $geo to prospect list` | Show all prospects with pipeline status |
+| `Use $geo to prospect list <status>` | Filter: lead, qualified, proposal, won, lost |
+| `Use $geo to prospect show <id-or-domain>` | Full prospect detail with history |
+| `Use $geo to prospect audit <id-or-domain>` | Run quick GEO audit and save to prospect record |
+| `Use $geo to prospect note <id-or-domain> "<text>"` | Add interaction note with timestamp |
+| `Use $geo to prospect status <id-or-domain> <new-status>` | Move through pipeline |
+| `Use $geo to prospect won <id-or-domain> <monthly-value>` | Mark as won, set contract value |
+| `Use $geo to prospect lost <id-or-domain> "<reason>"` | Mark as lost with reason |
+| `Use $geo to prospect pipeline` | Visual pipeline summary with revenue forecast |
 
 ---
 
@@ -73,7 +71,7 @@ Each prospect is stored as a JSON record:
 
 ## Orchestration Instructions
 
-### `/geo prospect new <domain>`
+### `Use $geo to prospect new <domain>`
 
 1. Check if `~/.geo-prospects/prospects.json` exists, create if not (empty array)
 2. Auto-detect company name from domain (e.g., `electron-srl.com` → `Electron Srl`)
@@ -84,9 +82,9 @@ Each prospect is stored as a JSON record:
    - Monthly contract value estimate (optional)
 5. Set status to `lead`
 6. Save to JSON file
-7. Suggest next step: "Run `/geo prospect audit electron-srl.com` to score this prospect"
+7. Suggest next step: "Run `Use $geo to prospect audit electron-srl.com` to score this prospect"
 
-### `/geo prospect list`
+### `Use $geo to prospect list`
 
 Read `~/.geo-prospects/prospects.json` and render a summary table:
 
@@ -105,23 +103,23 @@ Pipeline: 1 lead | 1 qualified | 0 proposals | 1 won | 0 lost
 Committed MRR: €6,000 | Pipeline Value: €4,500
 ```
 
-### `/geo prospect audit <id-or-domain>`
+### `Use $geo to prospect audit <id-or-domain>`
 
-1. Run `/geo quick <domain>` to get GEO snapshot score
+1. Run `Use $geo to quick <domain>` to get GEO snapshot score
 2. Save score to prospect record: `geo_score`, `audit_date`
 3. Save audit output to `~/.geo-prospects/audits/<domain>-<date>.md`
 4. Update `audit_file` path in prospect record
 5. Add auto-note: "Quick audit run. GEO Score: XX/100."
-6. If score < 55: suggest "Score indicates strong sales opportunity. Run `/geo proposal <domain>` to generate proposal."
+6. If score < 55: suggest "Score indicates strong sales opportunity. Run `Use $geo to proposal <domain>` to generate proposal."
 
-### `/geo prospect note <id-or-domain> "<text>"`
+### `Use $geo to prospect note <id-or-domain> "<text>"`
 
 1. Find prospect by ID or domain
 2. Append note with current ISO date
 3. Save back to JSON
 4. Confirm: "Note added to Electron Srl (PRO-001)"
 
-### `/geo prospect status <id-or-domain> <status>`
+### `Use $geo to prospect status <id-or-domain> <status>`
 
 Valid statuses: `lead`, `qualified`, `proposal`, `won`, `lost`
 
@@ -129,7 +127,7 @@ Valid statuses: `lead`, `qualified`, `proposal`, `won`, `lost`
 2. Add auto-note: "Status changed to <status>"
 3. Save and confirm
 
-### `/geo prospect pipeline`
+### `Use $geo to prospect pipeline`
 
 Visual revenue-focused pipeline summary:
 

@@ -1,29 +1,27 @@
 ---
 name: geo-report-pdf
-description: Generate a professional PDF report from a GEO audit using pandoc + Chrome headless. Converts GEO-AUDIT-REPORT.md into a styled, client-ready PDF with a cover page, color-coded score tables, severity-tagged findings, and a 90-day roadmap.
-version: 2.0.0
-author: geo-seo-claude
-tags: [geo, pdf, report, client-deliverable, professional]
-allowed-tools: Read, Grep, Glob, Bash, Write
+description: Generate a professional PDF report from a GEO audit using pandoc + Chrome
+  headless. Converts GEO-AUDIT-REPORT.md into a styled, client-ready PDF with a cover
+  page, color-coded score tables, severity-tagged findings, and a 90-day roadmap.
 ---
 
 # GEO PDF Report Generator (pandoc pipeline)
 
 ## Prerequisites
 
-- **pandoc** — `brew install pandoc`
-- **Google Chrome** — must be installed at `/Applications/Google Chrome.app/`
+- **Pandoc** — install using the package manager for the current OS.
+- **Chrome or Chromium** — install a version with headless PDF support.
 
 No Python dependencies. No ReportLab. No JSON data wrangling.
 
 ## How It Works
 
-1. Read `GEO-AUDIT-REPORT.md` in the current directory (created by `/geo audit`)
+1. Read `GEO-AUDIT-REPORT.md` in the current directory (created by `Use $geo to audit`)
 2. Extract cover metadata from the report (brand name, domain, GEO score, date, locations)
 3. Run `pandoc` with the bundled CSS + HTML template to produce a self-contained `GEO-REPORT.html`
 4. Run Chrome headless to print the HTML to `GEO-REPORT.pdf`
 
-The pandoc template (`~/.claude/skills/geo/templates/geo-report-template.html`) injects:
+The pandoc template (`${CODEX_HOME:-$HOME/.codex}/skills/geo/templates/geo-report-template.html`) injects:
 - A full-bleed dark navy cover section with the GEO score badge
 - Per-section cover metadata (date, business type, locations, platform)
 - JavaScript that runs inside Chrome before printing to color-code score cells and severity-tag finding sections
@@ -32,7 +30,7 @@ The pandoc template (`~/.claude/skills/geo/templates/geo-report-template.html`) 
 
 ### Step 1: Check for audit report
 
-Look for `GEO-AUDIT-REPORT.md` in the current directory. If absent, tell the user to run `/geo audit <url>` first.
+Look for `GEO-AUDIT-REPORT.md` in the current directory. If absent, tell the user to run `Use $geo to audit <url>` first.
 
 ### Step 2: Extract cover metadata from the report
 
@@ -56,8 +54,8 @@ pandoc GEO-AUDIT-REPORT.md \
   --to html5 \
   --standalone \
   --embed-resources \
-  --template ~/.claude/skills/geo/templates/geo-report-template.html \
-  --css ~/.claude/skills/geo/templates/geo-report-style.css \
+  --template "${CODEX_HOME:-$HOME/.codex}/skills/geo/templates/geo-report-template.html" \
+  --css "${CODEX_HOME:-$HOME/.codex}/skills/geo/templates/geo-report-style.css" \
   --metadata title="GEO Audit Report — <brand_name>" \
   --metadata brand_name="<brand_name>" \
   --metadata domain="<domain>" \
@@ -74,8 +72,10 @@ Replace `<field>` placeholders with values extracted in Step 2. If a field is no
 
 ### Step 4: Run Chrome headless
 
+Locate the browser executable for the current OS (for example, `google-chrome` on Linux, `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` on macOS, or the Chrome `chrome.exe` path on Windows). Substitute that executable below; Git Bash users can use a quoted Windows path.
+
 ```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+"<path-to-chrome-or-chromium>" \
   --headless=new \
   --disable-gpu \
   --no-sandbox \
@@ -91,7 +91,7 @@ Replace `<field>` placeholders with values extracted in Step 2. If a field is no
 Tell the user:
 - `GEO-REPORT.pdf` was generated in the current directory
 - File size
-- Optionally: `open GEO-REPORT.pdf` to preview it
+- Open `GEO-REPORT.pdf` in a PDF viewer
 
 ## What the PDF Contains
 
@@ -104,8 +104,8 @@ Tell the user:
 
 ## Customizing the Report
 
-- **Colors / typography** — Edit `~/.claude/skills/geo/templates/geo-report-style.css`
-- **Cover layout** — Edit `~/.claude/skills/geo/templates/geo-report-template.html`
+- **Colors / typography** — Edit `${CODEX_HOME:-$HOME/.codex}/skills/geo/templates/geo-report-style.css`
+- **Cover layout** — Edit `${CODEX_HOME:-$HOME/.codex}/skills/geo/templates/geo-report-template.html`
 - **Score thresholds for color-coding** — Edit the `scoreColor()` function in the template's `<script>` block
 - **Which sections get page breaks** — Edit the `breakBefore` array in the template's `<script>` block
 
@@ -113,8 +113,8 @@ Tell the user:
 
 | Problem | Fix |
 |---|---|
-| `pandoc: command not found` | `brew install pandoc` |
-| Chrome not found | Check path: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` |
+| `pandoc: command not found` | Install Pandoc for your OS and ensure it is on `PATH` |
+| Chrome not found | Locate the installed Chrome or Chromium executable for your OS |
 | PDF is blank / empty | Increase `--virtual-time-budget` to 8000 |
 | Cover metadata missing | Check GEO-AUDIT-REPORT.md has the standard header format |
 | Fonts not loading | PDF is rendered offline; system fonts are used as fallback — this is expected |

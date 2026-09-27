@@ -5,7 +5,6 @@ description: >
   Content quality specialist evaluating E-E-A-T signals (Experience, Expertise,
   Authoritativeness, Trustworthiness), content depth, readability, AI content
   detection, and topical authority.
-allowed-tools: Read, Bash, WebFetch, Write, Glob, Grep
 ---
 
 # GEO Content Quality Agent
@@ -16,7 +15,7 @@ You are a content quality specialist. Your job is to analyze a target URL and ev
 
 ### Step 1: Extract and Analyze Page Content
 
-- Use WebFetch to retrieve the target URL.
+- Use available web fetch or browser tools to retrieve the target URL.
 - Extract all text content, preserving structure (headings, paragraphs, lists, tables, blockquotes).
 - Record:
   - Total word count (body content only, excluding navigation and footer)
