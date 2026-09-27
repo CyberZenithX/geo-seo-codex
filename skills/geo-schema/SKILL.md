@@ -1,10 +1,7 @@
 ---
 name: geo-schema
-description: Schema.org structured data audit and generation optimized for AI discoverability — detect, validate, and generate JSON-LD markup
-version: 1.0.0
-author: geo-seo-claude
-tags: [geo, schema, structured-data, json-ld, entity-recognition, ai-discoverability]
-allowed-tools: Read, Grep, Glob, Bash, WebFetch, Write
+description: Schema.org structured data audit and generation optimized for AI discoverability
+  — detect, validate, and generate JSON-LD markup
 ---
 
 # GEO Schema & Structured Data
@@ -26,9 +23,9 @@ Structured data is the primary machine-readable signal that tells AI systems wha
 
 ## Step 1: Detection
 
-**IMPORTANT:** WebFetch converts HTML to markdown and strips `<head>` content, which removes JSON-LD blocks. Use `fetch_page.py` instead:
+**IMPORTANT:** available web fetch or browser tools converts HTML to markdown and strips `<head>` content, which removes JSON-LD blocks. Use `fetch_page.py` instead:
 ```bash
-python3 ~/.claude/skills/geo/scripts/fetch_page.py <url> page
+bash "${CODEX_HOME:-$HOME/.codex}/skills/geo/scripts/run-python.sh" "${CODEX_HOME:-$HOME/.codex}/skills/geo/scripts/fetch_page.py" https://example.com page
 ```
 The output includes a `structured_data` array with all parsed JSON-LD blocks from the page.
 

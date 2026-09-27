@@ -1,14 +1,12 @@
 ---
 name: geo-proposal
-description: >
-  Auto-generate a professional, client-ready GEO service proposal from audit data.
-  Creates a full proposal in markdown and PDF including executive summary, findings,
-  recommended service packages (Basic/Standard/Premium), pricing, timeline, and terms.
-  Use when user says "proposal", "proposta", "offerta", "preventivo", "generate proposal",
-  or after completing a GEO audit for a prospect.
-version: 1.0.0
-tags: [geo, business, proposal, sales, pricing, client]
-allowed-tools: Read, Write, Bash, Glob, WebFetch
+description: 'Auto-generate a professional, client-ready GEO service proposal from
+  audit data. Creates a full proposal in markdown and PDF including executive summary,
+  findings, recommended service packages (Basic/Standard/Premium), pricing, timeline,
+  and terms. Use when user says "proposal", "proposta", "offerta", "preventivo", "generate
+  proposal", or after completing a GEO audit for a prospect.
+
+  '
 ---
 
 # GEO Proposal Generator
@@ -27,14 +25,14 @@ Generate a fully customized, client-ready GEO service proposal that:
 ## Command
 
 ```
-/geo proposal <domain-or-audit-file> [--tier basic|standard|premium] [--client-name "Name"] [--monthly EUR]
+Use $geo to proposal <domain-or-audit-file> [--tier basic|standard|premium] [--client-name "Name"] [--monthly EUR]
 ```
 
 **Examples:**
 ```
-/geo proposal electron-srl.com
-/geo proposal electron-srl.com --tier standard --client-name "Electron Srl"
-/geo proposal ~/.geo-prospects/audits/electron-srl.com-2026-03-12.md
+Use $geo to proposal electron-srl.com
+Use $geo to proposal electron-srl.com --tier standard --client-name "Electron Srl"
+Use $geo to proposal ~/.geo-prospects/audits/electron-srl.com-2026-03-12.md
 ```
 
 ---
@@ -44,7 +42,7 @@ Generate a fully customized, client-ready GEO service proposal that:
 ### Step 1: Load Audit Data
 
 1. Check if `~/.geo-prospects/audits/<domain>*.md` exists
-2. If not, suggest running `/geo quick <domain>` first
+2. If not, suggest running `Use $geo to quick <domain>` first
 3. Extract from audit:
    - GEO Score (overall and per-category)
    - Top 3 critical findings
@@ -333,7 +331,7 @@ are based on current industry best practices for Generative Engine Optimization.
    ✓ Prospect status updated: Qualified → Proposal
    ✓ Recommended package: STANDARD (€5,000/month) — Score 32/100
 
-   Next: Share the proposal file or run `/geo report-pdf` for a visual version.
+   Next: Share the proposal file or run `Use $geo to report-pdf` for a visual version.
    ```
 
 ## Pricing Recommendation Logic

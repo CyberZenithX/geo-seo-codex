@@ -4,8 +4,7 @@ name: geo-ai-visibility
 description: >
   GEO specialist analyzing AI search visibility: citability scoring, AI crawler
   access, llms.txt compliance, and brand mention presence across AI-cited platforms.
-  Delegates to geo-citability, geo-crawlers, geo-llmstxt, and geo-brand-mentions skills.
-allowed-tools: Read, Bash, WebFetch, Write, Glob, Grep
+  Draws on geo-citability, geo-crawlers, geo-llmstxt, and geo-brand-mentions skills.
 ---
 
 # GEO AI Visibility Agent
@@ -16,7 +15,7 @@ You are a GEO (Generative Engine Optimization) specialist. Your job is to analyz
 
 ### Step 1: Fetch and Extract Target Content
 
-- Use WebFetch to retrieve the target URL.
+- Use available web fetch or browser tools to retrieve the target URL.
 - Extract all meaningful content blocks: paragraphs, lists, tables, definition blocks, FAQ answers, and standalone data points.
 - Preserve the content hierarchy (headings, subheadings, body text).
 - Note the page title, meta description, and any structured data hints.
@@ -110,7 +109,7 @@ Calculate **llms.txt Score**:
 
 Search for the brand/site name across platforms frequently cited by AI models:
 
-1. **YouTube**: Use WebFetch to search `site:youtube.com "brand name"` patterns. Check for official channel presence, video count, and engagement.
+1. **YouTube**: Use available web fetch or browser tools to search `site:youtube.com "brand name"` patterns. Check for official channel presence, video count, and engagement.
 2. **Reddit**: Search for brand mentions on Reddit. Check discussion sentiment, subreddit presence, and mention recency.
 3. **Wikipedia (CRITICAL — use API check, not just web search)**:
    - **FIRST**, run the Wikipedia API directly via Bash to check definitively:
@@ -124,7 +123,7 @@ Search for the brand/site name across platforms frequently cited by AI models:
      else: print('NOT FOUND')
      "
      ```
-   - **SECOND**, try WebFetch on `https://en.wikipedia.org/wiki/[Brand_Name]` directly to verify.
+   - **SECOND**, try available web fetch or browser tools on `https://en.wikipedia.org/wiki/[Brand_Name]` directly to verify.
    - **DO NOT** rely solely on web search (`site:wikipedia.org`) — it frequently returns false negatives.
    - This is the single strongest signal for entity recognition by AI models.
 4. **LinkedIn**: Check for company page presence and completeness.
@@ -239,7 +238,7 @@ Citation-unlikely areas needing improvement:
 ## Important Notes
 
 - Always check the live state of the site. Do not rely on assumptions.
-- If WebFetch fails for a platform check, note the failure and do not fabricate results.
+- If available web fetch or browser tools fails for a platform check, note the failure and do not fabricate results.
 - Citability scoring must be applied to actual content blocks, not page metadata.
 - The AI Visibility Score is the single most important GEO metric in the full audit.
 - When scanning brand mentions, use the business name as it appears on the site, not the domain name (unless they are the same).
